@@ -5,10 +5,13 @@
  */
 package javagame;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class JavaGame extends JFrame {
@@ -16,6 +19,8 @@ public class JavaGame extends JFrame {
     int x, y;
     private Image dbImage;
     private Graphics dbg;
+    Image face;
+    Font font = new Font("Arial", Font.BOLD | Font.ITALIC, 30);
 
     public class AL extends KeyAdapter {
 
@@ -57,11 +62,16 @@ public class JavaGame extends JFrame {
     }
 
     public JavaGame() {
+        // load images
+        ImageIcon i = new ImageIcon("C:/Users/DaSammich/Desktop/snowball.jpg");
+        face = i.getImage();
+        // game properties
         addKeyListener(new AL());
         setTitle("Java Game");
         setSize(250, 250);
         setResizable(false);
         setVisible(true);
+        setBackground(Color.CYAN);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         x = 150;
@@ -76,7 +86,8 @@ public class JavaGame extends JFrame {
     }
 
     public void paintComponent(Graphics g) {
-        g.fillOval(x, y, 15, 15);
+        g.setColor(Color.red);
+        g.drawImage(face, x, y, this);
         repaint();
     }
 
