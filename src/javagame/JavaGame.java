@@ -14,50 +14,82 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-public class JavaGame extends JFrame {
+public class JavaGame extends JFrame implements Runnable {
 
-    int x, y;
+    int x, y, xDirection, yDirection;
     private Image dbImage;
     private Graphics dbg;
     Image face;
-    Font font = new Font("Arial", Font.BOLD | Font.ITALIC, 30);
+
+    public void run() {
+        try {
+            while (true) {
+                move();
+                Thread.sleep(5);
+            }
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
+    }
+
+    public void move() {
+        x += xDirection;
+        y += yDirection;
+        if (x <= 0) {
+            x = 0;
+        }
+        if (x >= 200) {
+            x = 200;
+        }
+        if (y <= 50) {
+            y = 50;
+        }
+        if (y >= 200) {
+            y = 200;
+        }
+
+    }
+
+    public void setXDirection(int xdir) {
+        xDirection = xdir;
+    }
+
+    public void setYDirection(int ydir) {
+        yDirection = ydir;
+    }
 
     public class AL extends KeyAdapter {
 
         public void keyPressed(KeyEvent e) {
             int keyCode = e.getKeyCode();
             if (keyCode == e.VK_LEFT) {
-                if (x <= 0) {
-                    x = 0;
-                } else {
-                    x -= 5;
-                }
+                setXDirection(-1);
             }
             if (keyCode == e.VK_RIGHT) {
-                if (x >= 230) {
-                    x = 230;
-                } else {
-                    x += 5;
-                }
+                setXDirection(+1);
             }
             if (keyCode == e.VK_UP) {
-                if (y <= 20) {
-                    y = 20;
-                } else {
-                    y -= 5;
-                }
+                setYDirection(-1);
             }
             if (keyCode == e.VK_DOWN) {
-                if (y >= 230) {
-                    y = 230;
-                } else {
-                    y += 5;
-                }
+                setYDirection(+1);
             }
         }
 
         public void keyReleased(KeyEvent e) {
-
+            int keyCode = e.getKeyCode();
+            if (keyCode == e.VK_LEFT) {
+                setXDirection(0);
+            }
+            if (keyCode == e.VK_RIGHT) {
+                setXDirection(0);
+            }
+            if (keyCode == e.VK_UP) {
+                setYDirection(0);
+            }
+            if (keyCode == e.VK_DOWN) {
+                setYDirection(0);
+            }
         }
     }
 
@@ -92,7 +124,9 @@ public class JavaGame extends JFrame {
     }
 
     public static void main(String[] args) {
-        new JavaGame();
+        JavaGame jg = new JavaGame();
+        Thread t1 = new Thread(jg);
+        t1.start();
     }
 
 }
