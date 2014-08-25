@@ -62,7 +62,6 @@ public class JavaGame extends JFrame {
     public void paintComponent(Graphics g) {
         g.fillOval(x, y, 15, 15);
         repaint();
-        System.out.println("You were here");
     }
 
     public static void main(String[] args) {
